@@ -26,7 +26,6 @@ end
 local function is_bitburner_file(bufnr)
 	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, math.min(10, vim.api.nvim_buf_line_count(bufnr)), false)
 	for _, line in ipairs(lines) do
-		-- Match: import { NS } from '@ns'
 		if line:match("import%s+{%s*NS%s*}%s+from%s+['\"]@ns['\"]") then
 			return true
 		end
@@ -48,16 +47,14 @@ function M.estimate_ram()
 	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 	local code = table.concat(lines, "\n")
 
-	local seen = {}
 	local total_ram = 1.6 -- base RAM for a script
-	for fn in code:gmatch("ns%.([a-zA-Z0-9_]+)") do
-		if not seen[fn] then
-			seen[fn] = true
-			total_ram = total_ram + (ram_table[fn] or 0)
-		end
+	-- match method calls including dots for nested namespaces
+	for fn in code:gmatch("ns%.([a-zA-Z0-9_%.]+)") do
+		local ram_cost = ram_table[fn] or 0
+		total_ram = total_ram + ram_cost
 	end
 
-	vim.g.bitburner_ram = string.format("BB RAM: %.2f GB", total_ram)
+	vim.g.bitburner_ram = string.format("RAM: %.2f GB", total_ram)
 end
 
 function M.setup()
