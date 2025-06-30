@@ -34,13 +34,6 @@ Then reload Neovim and run:
 
 ## 🛠 Setup
 
-Place this in your `init.vim` **after** setting up Airline:
-
-```vim
-" Show Bitburner RAM estimate in the status bar (right section)
-let g:airline_section_x = '%{get(g:, "bitburner_ram", "")}'
-```
-
 The plugin will automatically:
 
 - Load when opening `.ts` files
