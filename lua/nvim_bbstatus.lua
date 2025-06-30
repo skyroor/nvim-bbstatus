@@ -1,8 +1,8 @@
 local M = {}
 
+local label_prefix = vim.g.bbstatus_label_prefix or "RAM Estimate ~ "
 local ram_table = {}
 
--- Utility: Get path of the current Lua plugin directory
 local function get_plugin_dir()
 	local info = debug.getinfo(1, "S")
 	local source = info.source:sub(2)
@@ -72,16 +72,27 @@ function M.estimate_ram()
 		end
 	end
 
-	-- Optional: Cap to 64 GB like Bitburner
 	total_ram = math.min(total_ram, 64)
 
 	-- Set airline var
-	vim.g.bitburner_ram = string.format("RAM Estimate ~ %.2fGB", total_ram)
+	vim.g.bitburner_ram = string.format("%s%.2f GB", label_prefix, total_ram)
+
 end
 
 -- Load once
+
 function M.setup()
 	load_ram_table()
+
+	vim.api.nvim_create_user_command("BBStatus", function(opts)
+		label_prefix = opts.args
+		vim.g.bbstatus_label_prefix = label_prefix
+		M.estimate_ram()
+	end, {
+		nargs = 1,
+		desc = "Set the RAM display label prefix"
+	})
 end
+
 
 return M
