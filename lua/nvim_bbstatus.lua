@@ -76,7 +76,7 @@ function M.estimate_ram()
 	total_ram = math.min(total_ram, 64)
 
 	-- Set airline var
-	vim.g.bitburner_ram = string.format("BB RAM: %.2f GB", total_ram)
+	vim.g.bitburner_ram = string.format("RAM Estimate ~ %.2fGB", total_ram)
 end
 
 -- Load once
