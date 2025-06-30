@@ -4,10 +4,10 @@ if !exists('g:airline_section_x')
 	finish
 endif
 
-lua require("bitburner_ram").setup()
+lua require("nvim-bbstatus").setup()
 
 " Run on relevant events
-autocmd BufReadPost,BufEnter,BufWritePost *.ts lua require("bitburner_ram").estimate_ram()
+autocmd BufReadPost,BufEnter,BufWritePost *.ts lua require("nvim-bbstatus").estimate_ram()
 
 " Show in airline
-let g:airline_section_x = '%{get(g:, "bitburner_ram", "")}'
+let g:airline_section_x = '%{get(g:, "nvim-bbstatus", "")}'
