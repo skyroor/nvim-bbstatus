@@ -255,7 +255,7 @@
   "resetStyles": 0,
   "getGameInfo": 0,
   "clearTerminal": 0.2,
-  "hack": 4,
+  "hack": 0.1,
   "grow": 0.15,
   "weaken": 0.15,
   "weakenAnalyze": 1,
