@@ -50,11 +50,9 @@ function M.estimate_ram()
 
 	local seen = {}
 	local total_ram = 1.6 -- base RAM for a script
-	for fn in code:gmatch("ns%.([a-zA-Z0-9_]+)") do
-		if not seen[fn] then
-			seen[fn] = true
-			total_ram = total_ram + (ram_table[fn] or 0)
-		end
+	for fn in code:gmatch("ns%.([a-zA-Z0-9_]+)%s*%(") do
+		local ram_cost = ram_table[fn] or 0
+		total_ram = total_ram + ram_cost
 	end
 
 	vim.g.bitburner_ram = string.format("BB RAM: %.2f GB", total_ram)
